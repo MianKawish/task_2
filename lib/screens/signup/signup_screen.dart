@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_2/bloc/signup/bloc/signup_bloc.dart';
+import 'package:task_2/extensions/string_extension.dart';
 import 'package:task_2/res/appStrings/appStrings.dart';
 import 'package:task_2/screens/home/home_screen.dart';
 import 'package:task_2/screens/login/login_screen.dart';
@@ -80,8 +81,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               .read<SignupBloc>()
                               .add(EmailChangedEvent(value)),
                           validator: (value) {
-                            if (value!.contains("@") &&
-                                value.endsWith(".com")) {
+                            if (value != null && value.isValidEmail) {
                               return null;
                             } else {
                               return Appstrings.emailErrorText;
