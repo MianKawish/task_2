@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:task_2/utils/utils.dart';
 
 class AuthRepo {
@@ -64,7 +63,6 @@ class AuthRepo {
 
       return creds.user;
     } catch (e) {
-      debugPrint(e.toString());
       return null;
     }
   }
@@ -72,8 +70,9 @@ class AuthRepo {
   loginUser(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return true;
     } catch (e) {
-      print(e.toString());
+      return null;
     }
   }
 }

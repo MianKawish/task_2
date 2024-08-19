@@ -137,7 +137,6 @@ class _SignupScreenState extends State<SignupScreen> {
                               ? null
                               : () {
                                   if (_formKey.currentState!.validate()) {
-                                    print("Submitting Data");
                                     context
                                         .read<SignupBloc>()
                                         .add(FormSubmitEvent());

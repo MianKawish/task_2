@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+
 import 'package:task_2/repos/auth_repo/auth_repo.dart';
 import 'package:task_2/utils/utils.dart';
 
@@ -33,10 +34,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginButtonEvent event, Emitter<LoginState> emit) async {
     emit(state.copyWith(loginStatus: LoginStatus.loading));
     try {
-      print(state.email);
-      print(state.password);
-      await _authRepo.loginUser(state.email, state.password);
-      emit(state.copyWith(loginStatus: LoginStatus.success));
+      final bool authnticated =
+          await _authRepo.loginUser(state.email, state.password);
+      if (authnticated) {
+        emit(state.copyWith(loginStatus: LoginStatus.success));
+      } else {
+        emit(state.copyWith(loginStatus: LoginStatus.error));
+        Utils.flutterToast("Some Error Ocuured");
+      }
     } catch (e) {
       emit(
           state.copyWith(loginStatus: LoginStatus.error, errMsg: e.toString()));

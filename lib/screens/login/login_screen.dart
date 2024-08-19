@@ -5,7 +5,6 @@ import 'package:task_2/extensions/string_extension.dart';
 import 'package:task_2/res/appStrings/appStrings.dart';
 import 'package:task_2/screens/home/home_screen.dart';
 import 'package:task_2/screens/signup/signup_screen.dart';
-import 'package:task_2/utils/utils.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -82,7 +81,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 BlocListener<LoginBloc, LoginState>(
                   listener: (context, state) {
                     if (state.loginStatus == LoginStatus.success) {
-                      Utils.flutterToast("Logged in Successfully");
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -92,35 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: BlocBuilder<LoginBloc, LoginState>(
                     builder: (context, state) {
-                      return ElevatedButton(
-                        style: const ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.blue)),
-                        onPressed: state.loginStatus == LoginStatus.loading
-                            ? null
-                            : () {
-                                if (_formKey.currentState!.validate()) {
-                                  context
-                                      .read<LoginBloc>()
-                                      .add(LoginButtonEvent());
-                                }
-                              },
-                        child: state.loginStatus == LoginStatus.loading
-                            ? const Center(
-                                child: SizedBox(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )
-                            : const Text(
-                                Appstrings.loginButtonText,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                      );
+                      return loginButton(state, context);
                     },
                   ),
                 ),
@@ -145,5 +115,34 @@ class _LoginScreenState extends State<LoginScreen> {
                 )
               ],
             )));
+  }
+
+  ElevatedButton loginButton(LoginState state, BuildContext context) {
+    return ElevatedButton(
+      style: const ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.blue)),
+      onPressed: state.loginStatus == LoginStatus.loading
+          ? null
+          : () {
+              if (_formKey.currentState!.validate()) {
+                context.read<LoginBloc>().add(LoginButtonEvent());
+              }
+            },
+      child: state.loginStatus == LoginStatus.loading
+          ? const Center(
+              child: SizedBox(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ),
+            )
+          : const Text(
+              Appstrings.loginButtonText,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700),
+            ),
+    );
   }
 }

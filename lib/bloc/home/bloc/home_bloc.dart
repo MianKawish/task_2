@@ -22,12 +22,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> _fieldEnablerEvent(
       FieldChangerEvent event, Emitter<HomeState> emit) {
-    print("Before Emitting State Value ${state.isEnabled}");
-
     bool newEnabledValue = !state.isEnabled;
 
     emit(state.copyWith(isEnabled: newEnabledValue));
-    print("After Emitting: The emitted value is $newEnabledValue");
   }
 
   FutureOr<void> _logoutUserEvent(
@@ -65,11 +62,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       List<String> userList = await _authRepo.getUserData();
 
-      print(userList);
       emit(state.copyWith(
           email: userList[2], firstName: userList[0], lastName: userList[1]));
     } catch (e) {
-      print(e.toString());
+      Utils.flutterToast("Some error occurred");
     }
   }
 }

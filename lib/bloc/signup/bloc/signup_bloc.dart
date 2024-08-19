@@ -39,7 +39,7 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   FutureOr<void> _lastNameChangedEvent(
       LastNameChangedEvent event, Emitter<SignupState> emit) {
     final newLastNameValue = event.lastName;
-    print(newLastNameValue);
+
     emit(state.copyWith(lastName: newLastNameValue));
   }
 

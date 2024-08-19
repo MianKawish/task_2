@@ -7,7 +7,6 @@ import 'package:task_2/bloc/signup/bloc/signup_bloc.dart';
 import 'package:task_2/bloc/splash/bloc/bloc/splash_bloc.dart';
 import 'package:task_2/firebase_options.dart';
 import 'package:task_2/repos/auth_repo/auth_repo.dart';
-import 'package:task_2/screens/signup/signup_screen.dart';
 import 'package:task_2/screens/splash/splash_screen.dart';
 
 void main() async {

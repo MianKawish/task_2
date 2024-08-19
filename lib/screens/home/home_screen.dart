@@ -139,46 +139,44 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: height * 0.1,
                     ),
                     state.isEnabled
-                        ? ElevatedButton(
-                            style: const ButtonStyle(
-                                backgroundColor:
-                                    WidgetStatePropertyAll(Colors.blue)),
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                context
-                                    .read<HomeBloc>()
-                                    .add(UpdateUserDataEvent());
-                              }
-                            },
-                            child: const Text(
-                              Appstrings.doneText,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700),
-                            ))
-                        : ElevatedButton(
-                            style: const ButtonStyle(
-                                backgroundColor:
-                                    WidgetStatePropertyAll(Colors.blue)),
-                            onPressed: () {
-                              print("Before ${state.isEnabled}");
-                              context.read<HomeBloc>().add(FieldChangerEvent());
-                              print("After ${state.isEnabled}");
-                            },
-                            child: const Text(
-                              Appstrings.editText,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700),
-                            ))
+                        ? updateUserData(context)
+                        : makeFieldsEditable(context)
                   ],
                 );
               },
             )),
       ),
     );
+  }
+
+  ElevatedButton makeFieldsEditable(BuildContext context) {
+    return ElevatedButton(
+        style: const ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.blue)),
+        onPressed: () {
+          context.read<HomeBloc>().add(FieldChangerEvent());
+        },
+        child: const Text(
+          Appstrings.editText,
+          style: TextStyle(
+              color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
+        ));
+  }
+
+  ElevatedButton updateUserData(BuildContext context) {
+    return ElevatedButton(
+        style: const ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.blue)),
+        onPressed: () {
+          if (_formKey.currentState!.validate()) {
+            context.read<HomeBloc>().add(UpdateUserDataEvent());
+          }
+        },
+        child: const Text(
+          Appstrings.doneText,
+          style: TextStyle(
+              color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
+        ));
   }
 
   Future<void> _showMyDialog() async {
